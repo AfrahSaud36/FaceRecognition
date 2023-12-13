@@ -16,31 +16,28 @@ The Face Recognition System is a project that leverages facial recognition techn
 import cv2
 import face_recognition
 
-# Load the known person image and encoding
+
 known_person_image_path = r"C:\Users\96650\OneDrive\Desktop\webtask\idk.jpg"
 known_person_image = face_recognition.load_image_file(known_person_image_path)
-# Check if there are faces in the image before attempting to get encodings
+
 face_locations = face_recognition.face_locations(known_person_image)
 if face_locations:
     known_person_encoding = face_recognition.face_encodings(known_person_image)[0]
 else:
     print("No faces found in the known person image.")
-    # You might want to handle this case, e.g., by selecting a different image.
     exit()
-# Choose the path to the uploaded viedo file 
+    
 video_path = r"C:\Users\96650\OneDrive\Desktop\webtask\la.mp4"
-# Open the video file
 video_capture = cv2.VideoCapture(video_path)
 frame_number = 0
 known_person_count = 0
 unknown_person_count = 0
-speed_factor = 2  # Increase the speed by a factor of 2
+speed_factor = 2 
 
 while True:
     ret, frame = video_capture.read()
 
     if not ret:
-        # Break the loop if the video is finished
         break
 
     face_locations = face_recognition.face_locations(frame)
@@ -60,10 +57,10 @@ while True:
         font = cv2.FONT_HERSHEY_DUPLEX
         cv2.putText(frame, name, (left + 6, bottom - 6), font, 0.5, (255, 255, 255), 1)
 
-    # Display frame number, recognized names, and counts
+    # Display frame
     cv2.putText(frame, f"Frame: {frame_number}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
-    cv2.putText(frame, f"Known Persons: {known_person_count}", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)  # Red color
-    cv2.putText(frame, f"Unknown Persons: {unknown_person_count}", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)  # Red color
+    cv2.putText(frame, f"Known Persons: {known_person_count}", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)  
+    cv2.putText(frame, f"Unknown Persons: {unknown_person_count}", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2) 
 
     cv2.imshow('Video', frame)
 
@@ -72,6 +69,5 @@ while True:
 
     frame_number += 1
 
-# Release the video capture object and close all windows
 video_capture.release()
 cv2.destroyAllWindows()
